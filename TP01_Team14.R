@@ -32,6 +32,7 @@ points(deg.min, cv.errors[deg.min], col = "red", cex = 2, pch = 19)
 
 # Plot of polynomial fit to the data
 d <- 4     #when changed from 4 to 2, the curve becomes less flexible
+  #When d = 10, you can see that the curve starts getting too flexible as age increases and n decreases
 
 plot(wage ~ age, data = Wage, col = "darkgrey",  bty = "n")
 agelims <-  range(Wage$age)
