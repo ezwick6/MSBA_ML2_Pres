@@ -16,6 +16,7 @@ for (i in 1:degree){
   fit <- glm(wage~poly(age,i), data = Wage)
   cv.errors[i] <- cv.glm(Wage, fit, K = 10)$delta[1] #Chose to use K-fold over LOOCV (faster)
 }
+summary(fit)
 
 #Plot of Test MSEs
 plot(1:degree, cv.errors, xlab = "Degree", ylab = "Test MSE", type = "l")
@@ -31,8 +32,8 @@ points(deg.min, cv.errors[deg.min], col = "red", cex = 2, pch = 19)
 
 
 # Plot of polynomial fit to the data
-d <- 4     #when changed from 4 to 2, the curve becomes less flexible
-  #When d = 10, you can see that the curve starts getting too flexible as age increases and n decreases
+d <- 2     #when changed from 4 to 2, the curve becomes less flexible
+  #When d = 9, you can see that the curve starts getting too flexible as age increases and n decreases
 
 plot(wage ~ age, data = Wage, col = "darkgrey",  bty = "n")
 agelims <-  range(Wage$age)
@@ -61,13 +62,16 @@ anova <- anova(fit1, fit2, fit3, fit4, fit5, fit6, fit7, fit8, fit9, fit10)
 anova
 
 # Degree Chosen by ANOVA: 4
+#
   # The p-value comparing the linear Model 1 to the quadratic Model 2 is essentially zero, indicating that a linear fit is not sufficient. 
-  # Similarly the p-value comparing the quadratic Model 2 to the cubic Model 3 is very low, so the quadratic fit is also insufficient. 
+  # Similarly the p-value comparing the quadratic Model 2 to the cubic Model 3 is very low, so the quadratic fit is also not a significant improvement. 
   # The p-value comparing the cubic and degree-4 polynomials, Model 3 and Model 4, is approximately 5 % 
+      ###This indicates that there is about a 95% probability that model 4 is a significant improvement over model 3
   # The degree-5 polynomial Model 5 seems unnecessary because its p-value is 0.37. 
   # Hence, either a cubic or a quartic polynomial appear to provide a reasonable fit to the data
   # Lower- or higher-order models are not justified.
 # Comparison to CV: CV chose a higher dimensional model than ANOVA although with the rule of parsimony it is lower than ANOVA.
+
 
 
 
@@ -81,6 +85,7 @@ for(i in 2:degree){
   fit <- glm(wage ~ age.cut, data = Wage)
   cv.errors[i] <- cv.glm(Wage, fit, K = 10 )$delta[1]
 }
+summary(fit)
 
 # Plot
 plot(2:10, cv.errors[-1], xlab = "Number of cuts", ylab = "CV error", 
