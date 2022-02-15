@@ -13,6 +13,8 @@ anova <- anova(fit1, fit2, fit3, fit4, fit5, fit6, fit7, fit8, fit9, fit10)
 anova
 
 #F-statistic Function
+  #calculates the F-statistic of model0 from an anova output
+    #model0 must be nested within model1
 fstat <- function(model0,model1,anova){
 RSS.model0 <- anova$RSS[model0]
 RSS.model1 <- anova$RSS[model1]
